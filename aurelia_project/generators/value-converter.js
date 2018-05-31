@@ -3,39 +3,32 @@ import {Project, ProjectItem, CLIOptions, UI} from 'aurelia-cli';
 
 @inject(Project, CLIOptions, UI)
 export default class ValueConverterGenerator {
-  constructor(project, options, ui) {
-    this.project = project;
-    this.options = options;
-    this.ui = ui;
-  }
+	constructor(project, options, ui) {
+		this.project = project;
+		this.options = options;
+		this.ui = ui;
+	}
 
-  execute() {
-    return this.ui
-      .ensureAnswer(this.options.args[0], 'What would you like to call the value converter?')
-      .then(name => {
-        let fileName = this.project.makeFileName(name);
-        let className = this.project.makeClassName(name);
+	execute() {
+		return this.ui.ensureAnswer(this.options.args[0], 'What would you like to call the value converter?').then(name => {
+			let fileName = this.project.makeFileName(name);
+			let className = this.project.makeClassName(name);
 
-        this.project.valueConverters.add(
-          ProjectItem.text(`${fileName}.js`, this.generateSource(className))
-        );
+			this.project.valueConverters.add(
+				ProjectItem.text(`${fileName}.js`, this.generateSource(className))
+			);
 
-        return this.project.commitChanges()
-          .then(() => this.ui.log(`Created ${fileName}.`));
-      });
-  }
+			return this.project.commitChanges().then(() => {
+				this.ui.log(`Created ${fileName}.`);
+			});
+		});
+	}
 
-  generateSource(className) {
-    return `export class ${className}ValueConverter {
-  toView(value) {
+	generateSource(className) {
+		return `export class ${className}ValueConverter {
+			toView(value) {}
 
-  }
-
-  fromView(value) {
-
-  }
-}
-
-`;
-  }
+			fromView(value) {}
+		}`;
+	}
 }
