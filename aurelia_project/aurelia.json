@@ -12,6 +12,9 @@
 			"coverage": false
 		}
 	},
+	"dependencies": [
+
+	],
 	"platform": {
 		"id": "web",
 		"displayName": "Web",
